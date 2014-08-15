@@ -1,4 +1,4 @@
 xiexie
 ======
 
-Robot en RTC platform controller in the cloud.
+Robot and RTC platform controller in the cloud.
