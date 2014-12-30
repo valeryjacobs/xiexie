@@ -1,0 +1,10 @@
+C:\Code\xiexie\XieXieTester\bin\Debug\XieXieTester.exe.config
+C:\Code\xiexie\XieXieTester\bin\Debug\XieXieTester.exe
+C:\Code\xiexie\XieXieTester\bin\Debug\XieXieTester.pdb
+C:\Code\xiexie\XieXieTester\bin\Debug\CommandMessenger.dll
+C:\Code\xiexie\XieXieTester\bin\Debug\Newtonsoft.Json.dll
+C:\Code\xiexie\XieXieTester\bin\Debug\CommandMessenger.pdb
+C:\Code\xiexie\XieXieTester\bin\Debug\Newtonsoft.Json.xml
+C:\Code\xiexie\XieXieTester\obj\Debug\XieXieTester.csprojResolveAssemblyReference.cache
+C:\Code\xiexie\XieXieTester\obj\Debug\XieXieTester.exe
+C:\Code\xiexie\XieXieTester\obj\Debug\XieXieTester.pdb
