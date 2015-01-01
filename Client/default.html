@@ -1,0 +1,25 @@
+ <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Product App</title>
+</head>
+<body>
+
+ <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+  <script>
+     $(document).ready(function () {
+      // Send an AJAX request
+      $.post('/api/commands', {"CommandType":1,"Params":100})
+          .done(function (data) {
+            
+              mydata = data;
+           
+            });
+          });
+    });
+
+   
+  </script>
+
+ </body>
+</html>

@@ -13,6 +13,7 @@ namespace XieXieBridgeAPI.Controllers
 
         public IEnumerable<Command> GetAll()
         {
+         
             var commands = new List<Command> { new Command { CommandType = (int)CommandType.SetAll }, new Command {CommandType = (int)CommandType.SetAllOff } };
             return commands;
         }
