@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Xie Xie Client</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="clientstyle.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
     <script type="text/javascript" src="http://cdn.peerjs.com/0.3/peer.js"></script>
     <script>
@@ -21,6 +21,7 @@
 
         peer.on('open', function () {
             $('#my-id').text(peer.id);
+           
         });
 
         // Receiving a call
@@ -38,16 +39,21 @@
         // Click handlers setup
         $(function () {
 
-            $("#callCommand").click(function () {
-                $.post('http://localhost:49195/api/commands', { "CommandType": 1, "Params": 100 })
-                        .done(function (data) {
-                            alert(data);
-                        });
+            $("#execute-command").click(function () {
+                var conn = peer.connect('xiexiecon');
+
+                conn.on('open', function () {
+                    
+                    // Send messages
+                    conn.send('Hello!');
+                });
+
             });
 
             $('#make-call').click(function () {
                 // Initiate a call!
-                var call = peer.call($('#callto-id').val(), window.localStream);
+                //var call = peer.call($('#callto-id').val(), window.localStream);
+                var call = peer.call('xiexiecon', window.localStream);
 
                 step3(call);
             });
@@ -143,10 +149,7 @@
                     <input type="text" placeholder="Call user id..." id="callto-id">
                     <a href="#" class="pure-button pure-button-success" id="make-call">Call</a>
                 </div>
-                <div class="pure-form">
-                    <input type="text" placeholder="Command id..." id="command-id">
-                    <a href="#" class="pure-button pure-button-success" id="make-call">Execute command</a>
-                </div>
+              
              
             </div>
 
@@ -158,6 +161,10 @@
                     <input type="text" placeholder="Command id..." id="command-id">
                     <a href="#" class="pure-button pure-button-success" id="make-call">Execute command</a>
                 </div>-->
+                <div class="pure-form">
+                    <input type="text" placeholder="Command id..." id="command-id">
+                    <a href="#" class="pure-button pure-button-success" id="execute-command">Execute command</a>
+                </div>
             </div>
         </div>
     </div>
