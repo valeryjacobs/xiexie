@@ -42,7 +42,7 @@
                 // Send messages
                 //conn.send('Xiexie client: Datachannel open.');
                 conn.send({ "CommandType": 8, "Params": 'Xiexie client: Datachannel open.' });
-                
+
             });
         });
 
@@ -62,8 +62,7 @@
         $(function () {
 
             $("#execute-command").click(function () {
-                if(connOpen)
-                {
+                if (connOpen) {
                     conn.send({ "CommandType": $('#commandType').val(), "Params": $('#commandParameter').val() });
                 }
 
@@ -127,12 +126,48 @@
             $('#step3').show();
         }
 
+        $(document).on("keypress", function (e) {
+           //SetLed = 0,
+           //SetAll = 1,
+           //SetAllOff = 2,
+           //TurnL = 3,
+           //TurnR = 4,
+           //Stop = 5,
+           //SetSpeed = 6,
+           //Status = 7
+            if ($('#commandInput').is(":checked")) {
+                if (connOpen) {
+                    console.log(e.charCode);
+                    
+
+                    switch (e.charCode) {
+                        case 119:
+                            conn.send({ "CommandType": 1, "Params": '.' });
+                            break;
+                        case 97:
+                            conn.send({ "CommandType": 3, "Params": '.' });
+                            break;
+                        case 100:
+                            conn.send({ "CommandType": 4, "Params": '.' });
+                            break;
+                        case 32:
+                            conn.send({ "CommandType": 5, "Params": '.' });
+                            break;
+                        case 108:
+                            conn.send({ "CommandType": 0, "Params": '.' });
+                            break;
+                        //default:
+                        //    statements
+                    }
+                }
+            }
+        });
     </script>
 
 
 </head>
 
-<body>
+<body bgcolor="black">
 
     <div class="pure-g">
         <!-- Video area -->
@@ -145,13 +180,11 @@
 
         <!-- Steps -->
         <div class="pure-u-1-3">
-            <h2>PeerJS Video Chat</h2>
-
+           
             <!-- Get local audio/video stream -->
             <div id="step1">
-                <p>Please click `allow` on the top of the screen so we can access your webcam and microphone for calls.</p>
-                <div id="step1-error">
-                    <p>Failed to access the webcam and microphone. Make sure to run this demo on an http server and click allow when asked for permission by the browser.</p>
+               <div id="step1-error">
+                    <p>Failed to access the webcam and microphone.</p>
                     <a href="#" class="pure-button pure-button-error" id="step1-retry">Try again</a>
                 </div>
             </div>
@@ -159,8 +192,6 @@
             <!-- Make calls to others -->
             <div id="step2">
                 <p>Your id: <span id="my-id">...</span></p>
-                <p>Share this id with others so they can call you.</p>
-                <h3>Make a call</h3>
                 <div class="pure-form">
                     <input type="text" placeholder="Call user id..." id="callto-id">
                     <a href="#" class="pure-button pure-button-success" id="make-call">Call</a>
@@ -171,7 +202,7 @@
 
             <!-- Call in progress -->
             <div id="step3">
-                <p>Currently in call with <span id="their-id">...</span></p>
+                <p>Calling <span id="their-id">...</span></p>
                 <p><a href="#" class="pure-button pure-button-error" id="end-call">End call</a></p>
                 <!--<div class="pure-form">
                     <input type="text" placeholder="Command id..." id="command-id">
@@ -181,6 +212,7 @@
                     <input type="text" placeholder="Command type..." id="commandType">
                     <input type="text" placeholder="Command parameter..." id="commandParameter">
                     <a href="#" class="pure-button pure-button-success" id="execute-command">Execute command</a>
+                    <input id="commandInput" type="checkbox" />
                 </div>
             </div>
         </div>

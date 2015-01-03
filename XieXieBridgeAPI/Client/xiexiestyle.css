@@ -1058,7 +1058,7 @@ body {
 }
 
 #statusinfo {
-    background: lightgray;
+    /*background: lightgray;*/
     color: #fff;
     position: absolute;
     top: 305px;
