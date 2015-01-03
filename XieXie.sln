@@ -11,14 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XieXieTester", "XieXieTeste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{A06B6B03-1BEE-4663-9817-8BF96908DB3A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{643E2B63-17A9-4B83-8526-83317DF6E9FA}"
-	ProjectSection(SolutionItems) = preProject
-		Client\client.html = Client\client.html
-		Client\clientstyle.css = Client\clientstyle.css
-		Client\xiexie.html = Client\xiexie.html
-		Client\xiexiestyle.css = Client\xiexiestyle.css
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

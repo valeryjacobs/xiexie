@@ -72,6 +72,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Client\client.html" />
+    <Content Include="Client\clientstyle.css" />
+    <Content Include="Client\xiexie.html" />
+    <Content Include="Client\xiexiestyle.css" />
     <Content Include="default.html" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
