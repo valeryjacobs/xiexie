@@ -1,0 +1,9 @@
+C:\Users\Valery\Downloads\CmdMessenger\CSharp\CommandMessenger\bin\Debug\CommandMessenger.dll
+C:\Users\Valery\Downloads\CmdMessenger\CSharp\CommandMessenger\bin\Debug\CommandMessenger.pdb
+C:\Users\Valery\Downloads\CmdMessenger\CSharp\CommandMessenger\obj\Debug\CommandMessenger.csprojResolveAssemblyReference.cache
+C:\Users\Valery\Downloads\CmdMessenger\CSharp\CommandMessenger\obj\Debug\CommandMessenger.dll
+C:\Users\Valery\Downloads\CmdMessenger\CSharp\CommandMessenger\obj\Debug\CommandMessenger.pdb
+C:\Code\xiexie\CommandMessenger\bin\Debug\CommandMessenger.dll
+C:\Code\xiexie\CommandMessenger\bin\Debug\CommandMessenger.pdb
+C:\Code\xiexie\CommandMessenger\obj\Debug\CommandMessenger.dll
+C:\Code\xiexie\CommandMessenger\obj\Debug\CommandMessenger.pdb

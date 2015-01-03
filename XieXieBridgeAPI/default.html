@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Product App</title>
+</head>
+<body>
+
+    <div>
+        <h2>All Products</h2>
+        <ul id="products" />
+    </div>
+    <div>
+        <h2>Search by ID</h2>
+        <input type="text" id="prodId" size="5" />
+        <input type="button" value="Search" onclick="find();" />
+        <p id="product" />
+    </div>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+
+
+        var uri = 'api/commands';
+
+        //SetLed = 0,
+        //SetAll = 1,
+        //SetAllOff = 2,
+        //TurnL = 3,
+        //TurnR = 4,
+        //Stop = 5,
+        //SetSpeed = 6,
+        //Status = 7
+
+        var command = {
+            commandType: 3,
+            params: ['param1', 'param2']
+        };
+
+        $(document).ready(function () {
+            $.ajax({
+                url: 'api/commands',
+                cache: false,
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(command),
+                statusCode: {
+                    201 /*Created*/: function (data) {
+                        console.log(data);
+                    }
+                }
+            })
+                  .fail(
+                  function (xhr, textStatus, err) {
+                      // self.status(err);
+                      console.log(err);
+                  });
+        });
+
+        function formatItem(item) {
+            return item.Name + ': $' + item.Price;
+        }
+
+        function find() {
+            var id = $('#prodId').val();
+            $.getJSON(uri + '/' + id)
+                .done(function (data) {
+                    $('#product').text(formatItem(data));
+                })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#product').text('Error: ' + err);
+                });
+        }
+    </script>
+</body>
+</html>
