@@ -12,11 +12,18 @@
         var conn;
         var connOpen;
         // PeerJS object
+        //var peer = new Peer({
+        //    key: 'sk5zleyk181fko6r', debug: 3, config: {
+        //        'iceServers': [
+        //          { url: 'stun:stun.l.google.com:19302' } // Pass in optional STUN and TURN server for maximum network compatibility
+        //        ]
+        //    }
+        //});
+
         var peer = new Peer({
-            key: 'sk5zleyk181fko6r', debug: 3, config: {
+            host: 'xiexie.herokuapp.com', port: 9000, debug: 3, config: {
                 'iceServers': [
-                  { url: 'stun:stun.l.google.com:19302' } // Pass in optional STUN and TURN server for maximum network compatibility
-                ]
+                  { url: 'stun:stun.l.google.com:19302' }]
             }
         });
 
