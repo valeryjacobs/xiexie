@@ -7,3 +7,4 @@ C:\Code\xiexie\Test\bin\Debug\CommandMessenger.pdb
 C:\Code\xiexie\Test\bin\Debug\Newtonsoft.Json.xml
 C:\Code\xiexie\Test\obj\Debug\Test.exe
 C:\Code\xiexie\Test\obj\Debug\Test.pdb
+C:\Code\xiexie\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache

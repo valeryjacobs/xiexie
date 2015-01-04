@@ -37,16 +37,19 @@ namespace XieXieBridgeAPI
 
         public void Execute(CommandType command, object parameter)
         {
-            Messenger.SendCommand(new SendCommand( 1,100));
-
-            //if (command == (CommandType.SetAllOff | CommandType.Stop | CommandType.TurnL | CommandType.TurnR | CommandType.SetAll | CommandType.SetLed))
-            //{
-            //    Messenger.SendCommand(new SendCommand((int)command));
-            //}
-            //else if (command ==  CommandType.SetAll)
-            //{
-            //    Messenger.SendCommand(new SendCommand((int)command, (int)parameter));
-            //}
+            switch (command)
+            {
+                case CommandType.SetAllOff:
+                case CommandType.Stop:
+                case CommandType.TurnL:
+                case CommandType.TurnR:
+                case CommandType.SetLed:
+                    Messenger.SendCommand(new SendCommand((int)command));
+                    break;
+                case CommandType.SetAll:
+                    Messenger.SendCommand(new SendCommand((int)command, int.Parse(((string[])parameter)[0])));
+                    break;
+            }
         }
 
         public void Setup()

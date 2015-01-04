@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Xie Xie</title>
+    <link rel="stylesheet" href="xiexiestyle.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.peerjs.com/0.3/peer.js"></script>
+    <script>
+
+        // Compatibility shim
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+        var conn;
+        // PeerJS object
+        //var peer = new Peer('xiexiecon', {
+        //    host: 'xiexie.herokuapp.com', port: 9000, debug: 3, config: {
+        //        'iceServers': [
+        //          { url: 'stun:stun.l.google.com:19302' }]
+        //    }
+        //});
+
+        var peer = new Peer('xiexiecon', {
+            key: 'jdjnrq82fkj7cik9', debug: 3, config: {
+                'iceServers': [
+                  { url: 'stun:stun.l.google.com:19302' } // Pass in optional STUN and TURN server for maximum network compatibility
+                ]
+            }
+        });
+
+        peer.on('open', function () {
+            $('#my-id').text(peer.id);
+        });
+
+        peer.on('connection', function (connection) {
+            connection.on('open', function () {
+                // connection.send();
+                connection.send({ "CommandType": 8, "Params": 'Xiexie: Datachannel open.' });
+            });
+
+            connection.on('data', function (data) {
+                console.log('Received:', data);
+
+                if (data.CommandType != 8) {
+                    $.post('http://localhost:49195/api/commands', data)
+                           .done(function (data) {
+                               console.log(data);
+                               $('#output').text(data.CommandType + ' : ' + data.Params );
+                           });
+                }
+            });
+        });
+
+        peer.on('call', function (call) {
+            call.answer(window.localStream);
+            stepInprogress(call);
+        });
+        peer.on('error', function (err) {
+            alert(err.message);
+            // Return to step 2 if error occurs
+            stepCall();
+        });
+
+        // Click handlers setup
+        $(function () {
+
+            $("#callCommand").click(function () {
+                $.post('http://localhost:49195/api/commands', { "CommandType": 1, "Params": 100 })
+                        .done(function (data) {
+                            alert(data);
+                        });
+            });
+
+            $('#make-call').click(function () {
+                // Initiate a call!
+                var call = peer.call($('#callto-id').val(), window.localStream);
+
+                stepInprogress(call);
+            });
+
+            $('#end-call').click(function () {
+                window.existingCall.close();
+                stepCall();
+            });
+
+            // Retry if getUserMedia fails
+            $('#stepSetupStreams-retry').click(function () {
+                $('#stepSetupStreams-error').hide();
+                stepSetupStreams();
+            });
+
+            // Get things started
+            stepSetupStreams();
+        });
+
+        function stepSetupStreams() {
+            // Get audio/video stream
+            navigator.getUserMedia({ audio: true, video: true }, function (stream) {
+                // Set your video displays
+                $('#my-video').prop('src', URL.createObjectURL(stream));
+
+                window.localStream = stream;
+                stepCall();
+            }, function () { $('#stepSetupStreams-error').show(); });
+        }
+
+        function stepCall() {
+            $('#stepSetupStreams, #stepInprogress').hide();
+            $('#stepCall').show();
+        }
+
+        function stepInprogress(call) {
+            // Hang up on an existing call if present
+            if (window.existingCall) {
+                window.existingCall.close();
+            }
+
+            // Wait for stream on the call, then set peer video display
+            call.on('stream', function (stream) {
+                $('#their-video').prop('src', URL.createObjectURL(stream));
+            });
+
+            // UI stuff
+            window.existingCall = call;
+            $('#their-id').text(call.peer);
+            call.on('close', stepCall);
+            $('#stepSetupStreams, #stepCall').hide();
+            $('#stepInprogress').show();
+        }
+
+    </script>
+
+
+</head>
+
+
+<body bgcolor="black">
+    <div id="maincanvas">
+        <div id="clientcam">
+            <video width="320" height="240" id="their-video" autoplay></video>
+        </div>
+        <div id="localcam">
+            <video width="120" height="80" id="my-video" muted="true" autoplay></video>
+        </div>
+        <div id="statusinfo">
+            <div id="output">Log output</div>
+            <div class="pure-u-1-3">
+               
+                <!-- Get local audio/video stream -->
+                <div id="stepSetupStreams">
+                    <div id="stepSetupStreams-error">
+                        <p>Failed to access the webcam and microphone.</p>
+                        <a href="#" class="pure-button pure-button-error" id="step1-retry">Try again</a>
+                    </div>
+                </div>
+
+                <!-- Make calls to others -->
+                <div id="stepCall">
+                    <p>ID: <span id="my-id">...</span></p>
+                    <!--<div class="pure-form">
+                        <input type="text" placeholder="Call user id..." id="callto-id">
+                        <a href="#" class="pure-button pure-button-success" id="make-call">Call</a>
+                    </div>-->
+                    <!--<div class="pure-form">
+                        <input type="text" placeholder="Command id..." id="command-id">
+                        <a href="#" class="pure-button pure-button-success" id="make-call">Execute command</a>
+                    </div>-->
+
+                </div>
+
+                <!-- Call in progress -->
+                <div id="stepInprogress">
+                    <p>Calling <span id="their-id">...</span></p>
+                    <!--<p><a href="#" class="pure-button pure-button-error" id="end-call">End call</a></p>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
