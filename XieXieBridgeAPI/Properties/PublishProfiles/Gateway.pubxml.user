@@ -28,13 +28,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/02/2015 10:25:55</publishTime>
     </File>
     <File Include="bin/XieXieBridgeAPI.dll">
-      <publishTime>01/04/2015 10:47:31</publishTime>
+      <publishTime>01/04/2015 19:54:37</publishTime>
     </File>
     <File Include="bin/XieXieBridgeAPI.pdb">
-      <publishTime>01/04/2015 10:47:31</publishTime>
+      <publishTime>01/04/2015 19:54:36</publishTime>
     </File>
     <File Include="Client/client.html">
-      <publishTime>01/04/2015 00:22:09</publishTime>
+      <publishTime>01/04/2015 17:48:01</publishTime>
     </File>
     <File Include="Client/clientstyle.css">
       <publishTime>01/04/2015 00:00:10</publishTime>
