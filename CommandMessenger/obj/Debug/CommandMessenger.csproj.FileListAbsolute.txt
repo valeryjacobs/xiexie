@@ -7,3 +7,4 @@ C:\Code\xiexie\CommandMessenger\bin\Debug\CommandMessenger.dll
 C:\Code\xiexie\CommandMessenger\bin\Debug\CommandMessenger.pdb
 C:\Code\xiexie\CommandMessenger\obj\Debug\CommandMessenger.dll
 C:\Code\xiexie\CommandMessenger\obj\Debug\CommandMessenger.pdb
+C:\Code\xiexie\CommandMessenger\obj\Debug\CommandMessenger.csprojResolveAssemblyReference.cache

@@ -61,6 +61,15 @@
         // Click handlers setup
         $(function () {
 
+            $.ajax({
+                url: '//freegeoip.net/json/',
+                type: 'POST',
+                dataType: 'jsonp',
+                success: function (location) {
+                    alert(location.ip);
+                }
+            });
+
             $("#execute-command").click(function () {
                 if (connOpen) {
                     conn.send({ "CommandType": $('#commandType').val(), "Params": $('#commandParameter').val() });
@@ -142,19 +151,22 @@
 
                     switch (e.charCode) {
                         case 119:
-                            conn.send({ "CommandType": 1, "Params": '100' });
+                            conn.send({ "CommandType": 1, "Params": '254' });
+                            break;
+                        case 83:
+                            conn.send({ "CommandType": 1, "Params": '-254' });
                             break;
                         case 97:
-                            conn.send({ "CommandType": 3, "Params": '100' });
+                            conn.send({ "CommandType": 3, "Params": '254' });
                             break;
                         case 100:
-                            conn.send({ "CommandType": 4, "Params": '100' });
+                            conn.send({ "CommandType": 4, "Params": '254' });
                             break;
                         case 32:
-                            conn.send({ "CommandType": 5, "Params": '100' });
+                            conn.send({ "CommandType": 5, "Params": '254' });
                             break;
                         case 108:
-                            conn.send({ "CommandType": 0, "Params": '100' });
+                            conn.send({ "CommandType": 0, "Params": '254' });
                             break;
                         //default:
                         //    statements

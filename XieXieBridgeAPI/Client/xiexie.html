@@ -34,6 +34,7 @@
             connection.on('open', function () {
                 // connection.send();
                 connection.send({ "CommandType": 8, "Params": 'Xiexie: Datachannel open.' });
+
             });
 
             connection.on('data', function (data) {
