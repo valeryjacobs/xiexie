@@ -14,3 +14,4 @@ C:\Code\xiexie\XieXieBridgeAPI\bin\System.Web.Http.xml
 C:\Code\xiexie\XieXieBridgeAPI\bin\System.Web.Http.WebHost.xml
 C:\Code\xiexie\XieXieBridgeAPI\obj\Debug\XieXieBridgeAPI.dll
 C:\Code\xiexie\XieXieBridgeAPI\obj\Debug\XieXieBridgeAPI.pdb
+C:\Code\xiexie\XieXieBridgeAPI\bin\SimpleWifi.dll

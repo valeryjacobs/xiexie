@@ -53,7 +53,7 @@
             step3(call);
         });
         peer.on('error', function (err) {
-            alert(err.message);
+            console.log(err.message);
             // Return to step 2 if error occurs
             step2();
         });
@@ -61,14 +61,14 @@
         // Click handlers setup
         $(function () {
 
-            $.ajax({
-                url: '//freegeoip.net/json/',
-                type: 'POST',
-                dataType: 'jsonp',
-                success: function (location) {
-                    alert(location.ip);
-                }
-            });
+            //$.ajax({
+            //    url: '//freegeoip.net/json/',
+            //    type: 'POST',
+            //    dataType: 'jsonp',
+            //    success: function (location) {
+            //        alert(location.ip);
+            //    }
+            //});
 
             $("#execute-command").click(function () {
                 if (connOpen) {
