@@ -15,3 +15,15 @@ C:\Code\xiexie\XieXieBridgeAPI\bin\System.Web.Http.WebHost.xml
 C:\Code\xiexie\XieXieBridgeAPI\obj\Debug\XieXieBridgeAPI.dll
 C:\Code\xiexie\XieXieBridgeAPI\obj\Debug\XieXieBridgeAPI.pdb
 C:\Code\xiexie\XieXieBridgeAPI\bin\SimpleWifi.dll
+C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.Owin.dll
+C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.Owin.Security.dll
+C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.Web.Infrastructure.dll
+C:\Code\xiexie\XieXieBridgeAPI\bin\Owin.dll
+C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.Owin.xml
+C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.Owin.Security.xml
