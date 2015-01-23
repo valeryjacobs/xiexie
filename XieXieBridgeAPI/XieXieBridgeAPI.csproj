@@ -106,6 +106,8 @@
     <Content Include="Client\xiexiestyle.css" />
     <Content Include="Global.asax" />
     <Content Include="References\SimpleWifi.dll" />
+    <None Include="Properties\PublishProfiles\xiexie - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\xiexie - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

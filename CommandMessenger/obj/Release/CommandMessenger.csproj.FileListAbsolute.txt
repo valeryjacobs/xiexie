@@ -1,0 +1,5 @@
+C:\Code\xiexie\CommandMessenger\bin\Release\CommandMessenger.dll
+C:\Code\xiexie\CommandMessenger\bin\Release\CommandMessenger.pdb
+C:\Code\xiexie\CommandMessenger\obj\Release\CommandMessenger.csprojResolveAssemblyReference.cache
+C:\Code\xiexie\CommandMessenger\obj\Release\CommandMessenger.dll
+C:\Code\xiexie\CommandMessenger\obj\Release\CommandMessenger.pdb
