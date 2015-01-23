@@ -30,7 +30,12 @@
         peer.on('open', function () {
             $('#my-id').text(peer.id);
 
-            conn = peer.connect('xiexiecon2');
+            $.post('http://xiex2.com/api/config', data)
+                        .done(function (data) {
+                            console.log(data);
+
+                            conn = peer.connect(data.PeerId);
+                        });
 
             conn.on('open', function () {
                 connOpen = true;
@@ -80,7 +85,7 @@
             $('#make-call').click(function () {
                 // Initiate a call!
                 //var call = peer.call($('#callto-id').val(), window.localStream);
-                var call = peer.call('xiexiecon2', window.localStream);
+                var call = peer.call('xiexiecon3', window.localStream);
 
                 step3(call);
             });

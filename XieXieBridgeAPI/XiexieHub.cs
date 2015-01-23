@@ -6,11 +6,12 @@ using Microsoft.AspNet.SignalR;
 
 namespace XieXieBridgeAPI
 {
-    public class XiexieHub : Hub
+    public class XieXieHub : Hub
     {
-        public void Hello()
+        public void Send(string name, string message)
         {
-            Clients.All.hello();
+            // Call the broadcastMessage method to update clients.
+            Clients.All.broadcastMessage(name, message);
         }
     }
 }
