@@ -12,6 +12,9 @@
         var conn;
         var peerId;
         var connOpen;
+
+        var webConfigURL = 'http://xiexie.azurewebsites.net/api/config';
+
         // PeerJS object
         var peer = new Peer({
             key: 'ivvg6e8a17n6zuxr', debug: 3, config: {
@@ -31,7 +34,7 @@
         peer.on('open', function () {
             $('#my-id').text(peer.id);
 
-            $.get('http://xiexie.azurewebsites.net/api/config')
+            $.get(webConfigURL)
                         .done(function (data) {
                             console.log(data);
 
