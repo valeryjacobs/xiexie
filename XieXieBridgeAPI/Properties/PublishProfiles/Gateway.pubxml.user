@@ -52,10 +52,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/22/2015 16:00:49</publishTime>
     </File>
     <File Include="bin/XieXieBridgeAPI.dll">
-      <publishTime>01/23/2015 15:42:25</publishTime>
+      <publishTime>01/24/2015 07:20:45</publishTime>
     </File>
     <File Include="bin/XieXieBridgeAPI.pdb">
-      <publishTime>01/23/2015 15:42:25</publishTime>
+      <publishTime>01/24/2015 07:20:45</publishTime>
     </File>
     <File Include="Client/client.html">
       <publishTime>01/23/2015 17:14:32</publishTime>

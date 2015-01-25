@@ -12,6 +12,9 @@
         var conn;
         var peerId;
         var connOpen;
+
+        var webConfigURL = 'http://localhost:49195/api/config';
+
         // PeerJS object
         var peer = new Peer({
             key: 'ivvg6e8a17n6zuxr', debug: 3, config: {
@@ -31,26 +34,26 @@
         peer.on('open', function () {
             $('#my-id').text(peer.id);
 
-            $.get('http://xiexie.azurewebsites.net/api/config')
+            $.get(webConfigURL)
                         .done(function (data) {
                             console.log(data);
 
                             peerId = data.PeerId;
                             conn = peer.connect(peerId);
+
+                            conn.on('open', function () {
+                                connOpen = true;
+                                // Receive messages
+                                conn.on('data', function (data) {
+                                    console.log('Received:', data);
+                                });
+
+                                // Send messages
+                                //conn.send('Xiexie client: Datachannel open.');
+                                conn.send({ "CommandType": 8, "Params": 'Xiexie client: Datachannel open.' });
+
+                            });
                         });
-
-            conn.on('open', function () {
-                connOpen = true;
-                // Receive messages
-                conn.on('data', function (data) {
-                    console.log('Received:', data);
-                });
-
-                // Send messages
-                //conn.send('Xiexie client: Datachannel open.');
-                conn.send({ "CommandType": 8, "Params": 'Xiexie client: Datachannel open.' });
-
-            });
         });
 
         // Receiving a call

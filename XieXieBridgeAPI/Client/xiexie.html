@@ -17,6 +17,10 @@
         // Compatibility shim
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
         var conn;
+
+        var localConfigURL = 'http://localhost:49195/api/config';
+        var localStatusURL = 'http://localhost:49195/api/status';
+        var localCommandsURL = 'http://localhost:49195/api/commands';
         // PeerJS object
         //var peer = new Peer('xiexiecon', {
         //    host: 'xiexie.herokuapp.com', port: 9000, debug: 3, config: {
@@ -25,7 +29,7 @@
         //    }
         //});
 
-        $.get('http://localhost:49195/api/config')
+        $.get(localConfigURL)
                           .done(function (configData) {
                               console.log(configData);
                              
@@ -52,7 +56,7 @@
                                       console.log('Received:', data);
 
                                       if (data.CommandType != 8) {
-                                          $.post('http://localhost:49195/api/commands', data)
+                                          $.post(localCommandsURL, data)
                                                  .done(function (data) {
                                                      console.log(data);
                                                      $('#output').text(data.CommandType + ' : ' + data.Params);
@@ -110,7 +114,7 @@
             var tid = setInterval(mycode, 5000);
             function mycode() {
                 // do some stuff...
-                $.get('http://localhost:49195/api/status')
+                $.get(localStatusURL)
                       .done(function (data) {
                           $('#status').text(data.BatteryLevel + ' : ' + data.BatteryLevel + ' : ' + data.Charging + ' : ' + data.IPAddress + ' : ' + data.PublicIPAddress + ' : ' + data.WifiConnection + ' : ' + data.WifiReception);
                       });
@@ -122,7 +126,7 @@
 
 
             $("#callCommand").click(function () {
-                $.post('http://localhost:49195/api/commands', { "CommandType": 1, "Params": 100 })
+                $.post(localCommandsURL, { "CommandType": 1, "Params": 100 })
                         .done(function (data) {
                             console.log(data);
                         });
@@ -206,6 +210,13 @@
         <div id="statusinfo">
             <div id="output">Log output</div>
             <div id="status">Status</div>
+            <div id="chat">
+                <input type="text" id="message" />
+                <input type="button" id="sendmessage" value="Send" />
+                <input type="hidden" id="displayname" />
+                <ul id="discussion"></ul>
+            </div>
+
             <div class="pure-u-1-3">
 
                 <!-- Get local audio/video stream -->
@@ -234,15 +245,12 @@
                 <div id="stepInprogress">
                     <p>Calling <span id="their-id">...</span></p>
                     <!--<p><a href="#" class="pure-button pure-button-error" id="end-call">End call</a></p>-->
+                  
                 </div>
+
             </div>
         </div>
-         <div class="container">
-             <input type="text" id="message" />
-             <input type="button" id="sendmessage" value="Send" />
-             <input type="hidden" id="displayname" />
-             <ul id="discussion"></ul>
-         </div>
+    
     </div>
 </body>
 </html>

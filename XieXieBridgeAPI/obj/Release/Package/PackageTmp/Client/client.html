@@ -37,20 +37,20 @@
 
                             peerId = data.PeerId;
                             conn = peer.connect(peerId);
+
+                            conn.on('open', function () {
+                                connOpen = true;
+                                // Receive messages
+                                conn.on('data', function (data) {
+                                    console.log('Received:', data);
+                                });
+
+                                // Send messages
+                                //conn.send('Xiexie client: Datachannel open.');
+                                conn.send({ "CommandType": 8, "Params": 'Xiexie client: Datachannel open.' });
+
+                            });
                         });
-
-            conn.on('open', function () {
-                connOpen = true;
-                // Receive messages
-                conn.on('data', function (data) {
-                    console.log('Received:', data);
-                });
-
-                // Send messages
-                //conn.send('Xiexie client: Datachannel open.');
-                conn.send({ "CommandType": 8, "Params": 'Xiexie client: Datachannel open.' });
-
-            });
         });
 
         // Receiving a call
