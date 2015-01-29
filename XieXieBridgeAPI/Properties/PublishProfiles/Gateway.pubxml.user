@@ -39,6 +39,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Owin.dll">
       <publishTime>01/28/2015 16:52:50</publishTime>
     </File>
+    <File Include="bin/Scripts/peer.js">
+      <publishTime>01/28/2015 22:12:34</publishTime>
+    </File>
     <File Include="bin/SimpleWifi.dll">
       <publishTime>01/28/2015 16:52:49</publishTime>
     </File>
@@ -52,19 +55,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/28/2015 16:52:50</publishTime>
     </File>
     <File Include="bin/XieXieBridgeAPI.dll">
-      <publishTime>01/28/2015 17:12:36</publishTime>
+      <publishTime>01/28/2015 22:15:56</publishTime>
     </File>
     <File Include="bin/XieXieBridgeAPI.pdb">
-      <publishTime>01/28/2015 17:12:36</publishTime>
+      <publishTime>01/28/2015 22:15:56</publishTime>
     </File>
     <File Include="Client/client.html">
-      <publishTime>01/28/2015 16:59:58</publishTime>
+      <publishTime>01/28/2015 22:15:03</publishTime>
     </File>
     <File Include="Client/clientstyle.css">
       <publishTime>01/28/2015 16:52:49</publishTime>
     </File>
     <File Include="Client/xiexie.html">
-      <publishTime>01/28/2015 16:52:48</publishTime>
+      <publishTime>01/28/2015 22:15:03</publishTime>
     </File>
     <File Include="Client/xiexiestyle.css">
       <publishTime>01/28/2015 16:52:49</publishTime>
@@ -95,6 +98,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/jquery.signalR-2.1.2.min.js">
       <publishTime>01/28/2015 16:52:49</publishTime>
+    </File>
+    <File Include="Scripts/peer.js">
+      <publishTime>01/28/2015 22:12:34</publishTime>
     </File>
     <File Include="Web.config">
       <publishTime>01/28/2015 17:12:36</publishTime>

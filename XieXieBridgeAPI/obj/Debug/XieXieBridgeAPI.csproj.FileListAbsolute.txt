@@ -27,3 +27,4 @@ C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
 C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.Owin.xml
 C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Code\xiexie\XieXieBridgeAPI\bin\Microsoft.Owin.Security.xml
+C:\Code\xiexie\XieXieBridgeAPI\bin\Scripts\peer.js
