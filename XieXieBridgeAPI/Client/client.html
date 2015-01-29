@@ -82,7 +82,7 @@
 
             $("#execute-command").click(function () {
                 if (connOpen) {
-                    conn.send({ "CommandType": $('#commandType').val(), "Params": $('#commandParameter').val() });
+                    conn.send({ "CommandType": $('#commandType').val(), "Params": $('#commandParameter').val(), "Target": $('#target').val()});
                 }
 
             });
@@ -232,6 +232,7 @@
                 </div>-->
                 <div class="pure-form">
                     <input type="text" placeholder="Command type..." id="commandType">
+                    <input type="text" placeholder="Target..." id="target">
                     <input type="text" placeholder="Command parameter..." id="commandParameter">
                     <a href="#" class="pure-button pure-button-success" id="execute-command">Execute command</a>
                     <input id="commandInput" type="checkbox" />

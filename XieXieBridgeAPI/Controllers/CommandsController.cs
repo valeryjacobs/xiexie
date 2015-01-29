@@ -13,17 +13,24 @@ namespace XieXieBridgeAPI.Controllers
 
         public IEnumerable<Command> GetAll()
         {
-         
-            var commands = new List<Command> { new Command { CommandType = (int)CommandType.SetAll }, new Command {CommandType = (int)CommandType.SetAllOff } };
+
+            var commands = new List<Command> { new Command { CommandType = (int)FourWDCommandType.SetAll }, new Command { CommandType = (int)FourWDCommandType.SetAllOff } };
             return commands;
         }
 
         public HttpResponseMessage PostCommand(Command command)
         {
-
             var response = Request.CreateResponse<Command>(HttpStatusCode.Created, command);
 
-            SerialConnectionSingleton.Instance.Execute((CommandType)command.CommandType,command.Params);
+            if (command.Target == 0)
+            {
+                SerialConnectionSingleton.Instance.ExecuteFourWD((FourWDCommandType)command.CommandType, command.Params);
+
+            }
+            else if (command.Target == 1)
+            {
+                SerialConnectionSingleton.Instance.ExecuteHead((HeadCommandType)command.CommandType, command.Params);
+            }
 
             return response;
         }

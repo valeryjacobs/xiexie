@@ -12,6 +12,9 @@
         var conn;
         var peerId;
         var connOpen;
+
+        var webConfigURL = 'http://xiexie.azurewebsites.net/api/config';
+
         // PeerJS object
         var peer = new Peer({
             key: 'ivvg6e8a17n6zuxr', debug: 3, config: {
@@ -31,26 +34,26 @@
         peer.on('open', function () {
             $('#my-id').text(peer.id);
 
-            $.get('http://xiexie.azurewebsites.net/api/config')
+            $.get(webConfigURL)
                         .done(function (data) {
                             console.log(data);
 
                             peerId = data.PeerId;
                             conn = peer.connect(peerId);
+
+                            conn.on('open', function () {
+                                connOpen = true;
+                                // Receive messages
+                                conn.on('data', function (data) {
+                                    console.log('Received:', data);
+                                });
+
+                                // Send messages
+                                //conn.send('Xiexie client: Datachannel open.');
+                                conn.send({ "CommandType": 8, "Params": 'Xiexie client: Datachannel open.' });
+
+                            });
                         });
-
-            conn.on('open', function () {
-                connOpen = true;
-                // Receive messages
-                conn.on('data', function (data) {
-                    console.log('Received:', data);
-                });
-
-                // Send messages
-                //conn.send('Xiexie client: Datachannel open.');
-                conn.send({ "CommandType": 8, "Params": 'Xiexie client: Datachannel open.' });
-
-            });
         });
 
         // Receiving a call
@@ -79,7 +82,7 @@
 
             $("#execute-command").click(function () {
                 if (connOpen) {
-                    conn.send({ "CommandType": $('#commandType').val(), "Params": $('#commandParameter').val() });
+                    conn.send({ "CommandType": $('#commandType').val(), "Params": $('#commandParameter').val(), "Target": $('#target').val()});
                 }
 
             });
@@ -229,6 +232,7 @@
                 </div>-->
                 <div class="pure-form">
                     <input type="text" placeholder="Command type..." id="commandType">
+                    <input type="text" placeholder="Target..." id="target">
                     <input type="text" placeholder="Command parameter..." id="commandParameter">
                     <a href="#" class="pure-button pure-button-success" id="execute-command">Execute command</a>
                     <input id="commandInput" type="checkbox" />

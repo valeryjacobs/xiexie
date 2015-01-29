@@ -9,7 +9,7 @@ using System.Web;
 
 namespace XieXieBridgeAPI
 {
-    public enum CommandType
+    public enum FourWDCommandType
     {
         SetLed = 0,
         SetAll = 1,
@@ -20,6 +20,16 @@ namespace XieXieBridgeAPI
         SetSpeed = 6,
         Status = 7
     };
+
+    public enum HeadCommandType
+    {
+        Pan,
+        Tilt,
+        LightOn,
+        LightOff,
+        Light,
+        Status
+    }
 
     public sealed class SerialConnectionSingleton
     {
@@ -35,39 +45,78 @@ namespace XieXieBridgeAPI
             }
         }
 
-        public void Execute(CommandType command, object parameter)
+        public void ExecuteFourWD(FourWDCommandType command, object parameter)
         {
             switch (command)
             {
-                case CommandType.SetAllOff:
-                case CommandType.Stop:
-                case CommandType.TurnL:
-                case CommandType.TurnR:
-                case CommandType.SetLed:
-                    Messenger.SendCommand(new SendCommand((int)command));
+                case FourWDCommandType.SetAllOff:
+                case FourWDCommandType.Stop:
+                case FourWDCommandType.TurnL:
+                case FourWDCommandType.TurnR:
+                case FourWDCommandType.SetLed:
+                    FourWDMessenger.SendCommand(new SendCommand((int)command));
                     break;
-                case CommandType.SetAll:
-                    Messenger.SendCommand(new SendCommand((int)command, int.Parse(((string[])parameter)[0])));
+                case FourWDCommandType.SetAll:
+                    FourWDMessenger.SendCommand(new SendCommand((int)command, int.Parse(((string[])parameter)[0])));
+                    break;
+            }
+        }
+
+        public void ExecuteHead(HeadCommandType command, object parameter)
+        {
+            switch (command)
+            {
+                case HeadCommandType.Pan:
+                    HeadMessenger.SendCommand(new SendCommand((int)command, int.Parse(((string[])parameter)[0])));
+                    break;
+                case HeadCommandType.Tilt:
+                    HeadMessenger.SendCommand(new SendCommand((int)command, int.Parse(((string[])parameter)[0])));
+                    break;
+                case HeadCommandType.LightOn:
+                    HeadMessenger.SendCommand(new SendCommand((int)command));
+                    break;
+                case HeadCommandType.LightOff:
+                    HeadMessenger.SendCommand(new SendCommand((int)command));
+                    break;
+                case HeadCommandType.Light:
+                    HeadMessenger.SendCommand(new SendCommand((int)command, int.Parse(((string[])parameter)[0])));
                     break;
             }
         }
 
         public void Setup()
         {
-            Transport = new SerialTransport
+            FourWDTransport = new SerialTransport
             {
-                CurrentSerialSettings = { PortName = "COM5", BaudRate = 115200, DtrEnable = false } // object initializer
+                CurrentSerialSettings = { PortName = System.Configuration.ConfigurationManager.AppSettings["arduino4WDPort"], BaudRate = 115200, DtrEnable = false } // object initializer
             };
 
-            Messenger = new CmdMessenger(Transport)
+            HeadTransport = new SerialTransport
+            {
+                CurrentSerialSettings = { PortName = System.Configuration.ConfigurationManager.AppSettings["arduinoHeadPort"], BaudRate = 115200, DtrEnable = false } // object initializer
+            };
+
+            FourWDMessenger = new CmdMessenger(FourWDTransport)
             {
                 BoardType = BoardType.Bit16 // Set if it is communicating with a 16- or 32-bit Arduino board
             };
 
-            Messenger.Attach(OnUnknownCommand);
-            Messenger.Attach((int)CommandType.Status, OnStatus);
+            HeadMessenger = new CmdMessenger(HeadTransport)
+            {
+                BoardType = BoardType.Bit16 // Set if it is communicating with a 16- or 32-bit Arduino board
+            };
 
-            Messenger.StartListening();
+            FourWDMessenger.Attach(OnUnknownCommand);
+            FourWDMessenger.Attach((int)FourWDCommandType.Status, OnStatus);
+
+            FourWDMessenger.StartListening();
+
+
+            HeadMessenger.Attach(OnUnknownCommand);
+            HeadMessenger.Attach((int)FourWDCommandType.Status, OnStatus);
+
+            HeadMessenger.StartListening();
+
             Debug.WriteLine("Connection established.");
         }
 
@@ -83,7 +132,9 @@ namespace XieXieBridgeAPI
             Debug.WriteLine(arguments.ReadStringArg());
         }
 
-        public SerialTransport Transport { get; set; }
-        public CmdMessenger Messenger { get; set; }
+        public SerialTransport FourWDTransport { get; set; }
+        public SerialTransport HeadTransport { get; set; }
+        public CmdMessenger FourWDMessenger { get; set; }
+        public CmdMessenger HeadMessenger { get; set; }
     }
 }
