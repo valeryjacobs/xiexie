@@ -40,7 +40,7 @@ namespace Test
             {
                 CurrentSerialSettings =
                 {
-                    PortName = "COM5",
+                    PortName = "COM6",
                     BaudRate = 115200,
                     DtrEnable = false
                 }
@@ -83,32 +83,53 @@ namespace Test
                     Console.Write("Down");
                     this._cmdMessenger.SendCommand(new SendCommand(1, -100));
                     break;
+                case ConsoleKey.L:
+                    Console.Write("LightOn");
+                    this._cmdMessenger.SendCommand(new SendCommand(1, 255));
+                    break;
+                case ConsoleKey.D1:
+                    Console.Write("1");
+                    this._cmdMessenger.SendCommand(new SendCommand(2));
+                    break;
+                case ConsoleKey.D2:
+                    Console.Write("2");
+                    this._cmdMessenger.SendCommand(new SendCommand(3));
+                    break;
+                case ConsoleKey.D3:
+                    Console.Write("3");
+                    this._cmdMessenger.SendCommand(new SendCommand(0,60));
+                    break;
+                case ConsoleKey.D4:
+                    Console.Write("4");
+                    this._cmdMessenger.SendCommand(new SendCommand(1,60));
+                    break;
+
                 default:
-                    switch (key)
-                    {
-                        case ConsoleKey.D1:
-                            Console.Write("Speed 20%");
-                            this._cmdMessenger.SendCommand(new SendCommand(6, 50));
-                            break;
-                        case ConsoleKey.D2:
-                            Console.Write("Speed 40%");
-                            this._cmdMessenger.SendCommand(new SendCommand(6, 100));
-                            break;
-                        case ConsoleKey.D3:
-                            Console.Write("Speed 60%");
-                            this._cmdMessenger.SendCommand(new SendCommand(6, 160));
-                            break;
-                        case ConsoleKey.D4:
-                            Console.Write("Speed 100%");
-                            this._cmdMessenger.SendCommand(new SendCommand(6, 200));
-                            break;
-                        default:
-                            if (key == ConsoleKey.X)
-                            {
-                                this.Exit();
-                            }
-                            break;
-                    }
+                    //switch (key)
+                    //{
+                    //    case ConsoleKey.D1:
+                    //        Console.Write("Speed 20%");
+                    //        this._cmdMessenger.SendCommand(new SendCommand(6, 50));
+                    //        break;
+                    //    case ConsoleKey.D2:
+                    //        Console.Write("Speed 40%");
+                    //        this._cmdMessenger.SendCommand(new SendCommand(6, 100));
+                    //        break;
+                    //    case ConsoleKey.D3:
+                    //        Console.Write("Speed 60%");
+                    //        this._cmdMessenger.SendCommand(new SendCommand(6, 160));
+                    //        break;
+                    //    case ConsoleKey.D4:
+                    //        Console.Write("Speed 100%");
+                    //        this._cmdMessenger.SendCommand(new SendCommand(6, 200));
+                    //        break;
+                    //    default:
+                    //        if (key == ConsoleKey.X)
+                    //        {
+                    //            this.Exit();
+                    //        }
+                    //        break;
+                    //}
                     break;
             }
         }
@@ -122,6 +143,10 @@ namespace Test
         {
             this._cmdMessenger.Attach(new CmdMessenger.MessengerCallbackFunction(this.OnUnknownCommand));
             this._cmdMessenger.Attach(7, new CmdMessenger.MessengerCallbackFunction(this.OnStatus));
+            this._cmdMessenger.Attach(3, new CmdMessenger.MessengerCallbackFunction(this.OnStatus));
+            this._cmdMessenger.Attach(4, new CmdMessenger.MessengerCallbackFunction(this.OnStatus));
+            this._cmdMessenger.Attach(1, new CmdMessenger.MessengerCallbackFunction(this.OnStatus));
+            this._cmdMessenger.Attach(2, new CmdMessenger.MessengerCallbackFunction(this.OnStatus));
         }
         private void OnUnknownCommand(ReceivedCommand arguments)
         {

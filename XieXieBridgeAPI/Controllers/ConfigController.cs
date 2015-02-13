@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -12,7 +13,7 @@ namespace XieXieBridgeAPI.Controllers
     {
         public Config Get()
         {
-            return new Config() {  PeerId = "XieXieCon4"};
+            return new Config() {  PeerId = ConfigurationManager.AppSettings["PeerId"]};
         }
     }
 }

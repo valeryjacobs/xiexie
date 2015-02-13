@@ -23,12 +23,12 @@ namespace XieXieBridgeAPI
 
     public enum HeadCommandType
     {
-        Pan,
-        Tilt,
-        LightOn,
-        LightOff,
-        Light,
-        Status
+        Pan = 0,
+        Tilt = 1,
+        LightOn = 2,
+        LightOff = 3,
+        Light = 4,
+        Status = 5
     }
 
     public sealed class SerialConnectionSingleton
