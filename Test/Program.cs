@@ -3,6 +3,7 @@ using CommandMessenger.TransportLayer;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace Test
             {
                 CurrentSerialSettings =
                 {
-                    PortName = "COM6",
+                    PortName = ConfigurationManager.AppSettings["comPortName"],
                     BaudRate = 115200,
                     DtrEnable = false
                 }
@@ -73,7 +74,7 @@ namespace Test
                     break;
                 case ConsoleKey.UpArrow:
                     Console.Write("Up");
-                    this._cmdMessenger.SendCommand(new SendCommand(1, 100));
+                    this._cmdMessenger.SendCommand(new SendCommand(1, int.Parse(ConfigurationManager.AppSettings["power"])));
                     break;
                 case ConsoleKey.RightArrow:
                     Console.Write("Right");
@@ -81,7 +82,7 @@ namespace Test
                     break;
                 case ConsoleKey.DownArrow:
                     Console.Write("Down");
-                    this._cmdMessenger.SendCommand(new SendCommand(1, -100));
+                    this._cmdMessenger.SendCommand(new SendCommand(1, -1 * int.Parse(ConfigurationManager.AppSettings["power"])));
                     break;
                 case ConsoleKey.L:
                     Console.Write("LightOn");
