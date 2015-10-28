@@ -1,5 +1,6 @@
 ﻿using CommandMessenger;
 using CommandMessenger.TransportLayer;
+using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,32 +13,41 @@ namespace Test
 {
     public class SendAndReceive
     {
+        static DeviceClient deviceClient;
+        static string iotHubUri = "HostName=vjdevicehub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=6TiIt5wT/2KteegR7ZW7+m0qPT86U6TpIqoKsFtqOCU=";
+        static string deviceKey = "8wj7OyIJgtJQFgTvgjIJAz+IC+pLNIHabypMBPbGHUk=";
+
+
         private static void Main()
         {
+            deviceClient = DeviceClient.Create("vjdevicehub.azure-devices.net", new DeviceAuthenticationWithRegistrySymmetricKey("QuasiRobo", deviceKey));
+
+            ReceiveC2DAsync();
+
             SendAndReceive sendAndReceive = new SendAndReceive
             {
                 RunLoop = true
             };
-            sendAndReceive.Setup();
+            Setup();
             while (sendAndReceive.RunLoop)
             {
-                sendAndReceive.Loop();
+                Loop();
             }
             sendAndReceive.Exit();
         }
 
-        private SerialTransport _serialTransport;
-        private CmdMessenger _cmdMessenger;
-        private bool state = false;
+        private static SerialTransport _serialTransport;
+        private static CmdMessenger _cmdMessenger;
+        private static bool state = false;
         public bool RunLoop
         {
             get;
             set;
         }
-        public void Setup()
+        public static void Setup()
         {
             Console.WriteLine("Setting up connection...");
-            this._serialTransport = new SerialTransport
+            _serialTransport = new SerialTransport
             {
                 CurrentSerialSettings =
                 {
@@ -46,22 +56,22 @@ namespace Test
                     DtrEnable = false
                 }
             };
-            this._cmdMessenger = new CmdMessenger(this._serialTransport)
+            _cmdMessenger = new CmdMessenger(_serialTransport)
             {
                 BoardType = BoardType.Bit16
             };
-            this.AttachCommandCallBacks();
-            this._cmdMessenger.StartListening();
+            AttachCommandCallBacks();
+            _cmdMessenger.StartListening();
             Console.WriteLine("Connection established.");
         }
-        public void Loop()
+        public static void Loop()
         {
             ConsoleKey key = Console.ReadKey(true).Key;
             switch (key)
             {
                 case ConsoleKey.Spacebar:
                     Console.Write("STOP");
-                    this._cmdMessenger.SendCommand(new SendCommand(5));
+                    _cmdMessenger.SendCommand(new SendCommand(5));
                     break;
                 case ConsoleKey.PageUp:
                 case ConsoleKey.PageDown:
@@ -70,39 +80,39 @@ namespace Test
                     break;
                 case ConsoleKey.LeftArrow:
                     Console.Write("Left");
-                    this._cmdMessenger.SendCommand(new SendCommand(3));
+                    _cmdMessenger.SendCommand(new SendCommand(3));
                     break;
                 case ConsoleKey.UpArrow:
                     Console.Write("Up");
-                    this._cmdMessenger.SendCommand(new SendCommand(1, int.Parse(ConfigurationManager.AppSettings["power"])));
+                    _cmdMessenger.SendCommand(new SendCommand(1, int.Parse(ConfigurationManager.AppSettings["power"])));
                     break;
                 case ConsoleKey.RightArrow:
                     Console.Write("Right");
-                    this._cmdMessenger.SendCommand(new SendCommand(4));
+                    _cmdMessenger.SendCommand(new SendCommand(4));
                     break;
                 case ConsoleKey.DownArrow:
                     Console.Write("Down");
-                    this._cmdMessenger.SendCommand(new SendCommand(1, -1 * int.Parse(ConfigurationManager.AppSettings["power"])));
+                    _cmdMessenger.SendCommand(new SendCommand(1, -1 * int.Parse(ConfigurationManager.AppSettings["power"])));
                     break;
                 case ConsoleKey.L:
                     Console.Write("LightOn");
-                    this._cmdMessenger.SendCommand(new SendCommand(1, 255));
+                    _cmdMessenger.SendCommand(new SendCommand(1, 255));
                     break;
                 case ConsoleKey.D1:
                     Console.Write("1");
-                    this._cmdMessenger.SendCommand(new SendCommand(2));
+                    _cmdMessenger.SendCommand(new SendCommand(2));
                     break;
                 case ConsoleKey.D2:
                     Console.Write("2");
-                    this._cmdMessenger.SendCommand(new SendCommand(3));
+                    _cmdMessenger.SendCommand(new SendCommand(3));
                     break;
                 case ConsoleKey.D3:
                     Console.Write("3");
-                    this._cmdMessenger.SendCommand(new SendCommand(0,60));
+                    _cmdMessenger.SendCommand(new SendCommand(0,60));
                     break;
                 case ConsoleKey.D4:
                     Console.Write("4");
-                    this._cmdMessenger.SendCommand(new SendCommand(1,60));
+                    _cmdMessenger.SendCommand(new SendCommand(1,60));
                     break;
 
                 default:
@@ -110,24 +120,24 @@ namespace Test
                     //{
                     //    case ConsoleKey.D1:
                     //        Console.Write("Speed 20%");
-                    //        this._cmdMessenger.SendCommand(new SendCommand(6, 50));
+                    //        _cmdMessenger.SendCommand(new SendCommand(6, 50));
                     //        break;
                     //    case ConsoleKey.D2:
                     //        Console.Write("Speed 40%");
-                    //        this._cmdMessenger.SendCommand(new SendCommand(6, 100));
+                    //        _cmdMessenger.SendCommand(new SendCommand(6, 100));
                     //        break;
                     //    case ConsoleKey.D3:
                     //        Console.Write("Speed 60%");
-                    //        this._cmdMessenger.SendCommand(new SendCommand(6, 160));
+                    //        _cmdMessenger.SendCommand(new SendCommand(6, 160));
                     //        break;
                     //    case ConsoleKey.D4:
                     //        Console.Write("Speed 100%");
-                    //        this._cmdMessenger.SendCommand(new SendCommand(6, 200));
+                    //        _cmdMessenger.SendCommand(new SendCommand(6, 200));
                     //        break;
                     //    default:
                     //        if (key == ConsoleKey.X)
                     //        {
-                    //            this.Exit();
+                    //            Exit();
                     //        }
                     //        break;
                     //}
@@ -136,28 +146,71 @@ namespace Test
         }
         public void Exit()
         {
-            this._cmdMessenger.StopListening();
-            this._cmdMessenger.Dispose();
-            this._serialTransport.Dispose();
+            _cmdMessenger.StopListening();
+            _cmdMessenger.Dispose();
+            _serialTransport.Dispose();
         }
-        private void AttachCommandCallBacks()
+        private static void AttachCommandCallBacks()
         {
-            this._cmdMessenger.Attach(new CmdMessenger.MessengerCallbackFunction(this.OnUnknownCommand));
-            this._cmdMessenger.Attach(7, new CmdMessenger.MessengerCallbackFunction(this.OnStatus));
-            this._cmdMessenger.Attach(3, new CmdMessenger.MessengerCallbackFunction(this.OnStatus));
-            this._cmdMessenger.Attach(4, new CmdMessenger.MessengerCallbackFunction(this.OnStatus));
-            this._cmdMessenger.Attach(1, new CmdMessenger.MessengerCallbackFunction(this.OnStatus));
-            this._cmdMessenger.Attach(2, new CmdMessenger.MessengerCallbackFunction(this.OnStatus));
+            _cmdMessenger.Attach(new CmdMessenger.MessengerCallbackFunction(OnUnknownCommand));
+            _cmdMessenger.Attach(7, new CmdMessenger.MessengerCallbackFunction(OnStatus));
+            _cmdMessenger.Attach(3, new CmdMessenger.MessengerCallbackFunction(OnStatus));
+            _cmdMessenger.Attach(4, new CmdMessenger.MessengerCallbackFunction(OnStatus));
+            _cmdMessenger.Attach(1, new CmdMessenger.MessengerCallbackFunction(OnStatus));
+            _cmdMessenger.Attach(2, new CmdMessenger.MessengerCallbackFunction(OnStatus));
         }
-        private void OnUnknownCommand(ReceivedCommand arguments)
+        private static void OnUnknownCommand(ReceivedCommand arguments)
         {
             Console.WriteLine(JsonConvert.SerializeObject(arguments));
             Console.WriteLine("Command without attached callback received");
         }
-        private void OnStatus(ReceivedCommand arguments)
+        private static void OnStatus(ReceivedCommand arguments)
         {
             Console.Write("Arduino status: ");
             Console.WriteLine(arguments.ReadStringArg());
+        }
+
+        private static async void ReceiveC2DAsync()
+        {
+            Console.WriteLine("\nReceiving cloud to device messages from service");
+            while (true)
+            {
+                Message receivedMessage = await deviceClient.ReceiveAsync();
+                if (receivedMessage == null) continue;
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                var messageContent = Encoding.ASCII.GetString(receivedMessage.GetBytes());
+                Console.WriteLine("Received message: {0}", messageContent);
+                switch (messageContent)
+                {
+                    case "U":
+                        Console.Write("Up");
+                        _cmdMessenger.SendCommand(new SendCommand(1, int.Parse(ConfigurationManager.AppSettings["power"])));
+                        break;
+                    case "L":
+                        Console.Write("Left");
+                        _cmdMessenger.SendCommand(new SendCommand(3));
+                        break;
+                    case "R":
+                        Console.Write("Right");
+                        _cmdMessenger.SendCommand(new SendCommand(4));
+                        break;
+                    case "S":
+                        Console.Write("Stop");
+                        _cmdMessenger.SendCommand(new SendCommand(5));
+                        break;
+                    case "H":
+                        Console.Write("Headlights");
+                        _cmdMessenger.SendCommand(new SendCommand(1, 255));
+                        break;
+                    default:
+                        break;
+                }
+                
+                Console.ResetColor();
+
+                await deviceClient.CompleteAsync(receivedMessage);
+            }
         }
     }
 }
